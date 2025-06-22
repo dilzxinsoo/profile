@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Private Page | Dan Aleko</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=1350&q=80') no-repeat;
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      width: 420px;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, .2);
+      backdrop-filter: blur(9px);
+      border-radius: 12px;
+      padding: 30px 40px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 5px #000;
+    }
+
+    .input-box {
+      position: relative;
+      width: 100%;
+      height: 50px;
+      margin: 30px 0;
+    }
+
+    .input-box input {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      border: 2px solid rgba(255, 255, 255, .2);
+      border-radius: 40px;
+      font-size: 16px;
+      color: #fff;
+      padding: 20px 45px 20px 20px;
+    }
+
+    .input-box input::placeholder {
+      color: #fff;
+    }
+
+    .input-box i {
+      position: absolute;
+      right: 20px;
+      top: 30%;
+      transform: translate(-50%);
+      font-size: 20px;
+    }
+
+    .btn {
+      width: 100%;
+      height: 45px;
+      background: #fff;
+      border: none;
+      outline: none;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 16px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .error {
+      text-align: center;
+      margin-top: 15px;
+      color: #ff8080;
+      font-size: 14px;
+      display: none;
+    }
+
+    .profile-wrapper {
+      display: none;
+      width: 90%;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      z-index: 2;
+      text-align: center;
+    }
+
+    .profile-wrapper h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      border-bottom: 2px solid #fff;
+      display: inline-block;
+      padding-bottom: 5px;
+      color: #fff;
+      text-shadow: 2px 2px 5px #000;
+      animation: slideInDown 1s ease forwards;
+    }
+
+    .description p {
+      font-size: 1rem;
+      margin: 10px 0;
+      color: #fff;
+      text-shadow: 1px 1px 3px #000;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+      text-align: center;
+    }
+
+    .description p:nth-child(1) { animation-delay: 0.3s; }
+    .description p:nth-child(2) { animation-delay: 0.5s; }
+    .description p:nth-child(3) { animation-delay: 0.7s; }
+
+    #countdown {
+      margin-top: 30px;
+      font-size: 0.95rem;
+      background: rgba(0, 0, 80, 0.3);
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      animation: zoomIn 1s ease forwards;
+      animation-delay: 1.2s;
+      opacity: 0;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .buttons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 10px;
+      padding: 12px 24px;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      background: transparent;
+      border-radius: 30px;
+      backdrop-filter: blur(4px);
+      position: relative;
+      overflow: hidden;
+      border: none;
+      opacity: 0;
+    }
+
+    .buttons a::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 30px;
+      padding: 2px;
+      background: linear-gradient(to right, #fff, #fff);
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .buttons a span,
+    .buttons a i {
+      position: relative;
+      z-index: 1;
+    }
+
+    .buttons a.whatsapp {
+      animation: slideInLeft 0.8s ease forwards;
+      animation-delay: 1.5s;
+    }
+    .buttons a.whatsapp::before {
+      background: linear-gradient(to right, #25D366, #128C7E);
+    }
+    .buttons a.whatsapp i {
+      color: #25D366;
+    }
+
+    .buttons a.instagram {
+      animation: slideInRight 0.8s ease forwards;
+      animation-delay: 1.7s;
+    }
+    .buttons a.instagram::before {
+      background: linear-gradient(to right, #feda75, #d62976, #962fbf, #4f5bd5);
+    }
+    .buttons a.instagram i {
+      color: #E1306C;
+    }
+
+    .buttons a.tiktok {
+      animation: slideInLeft 0.8s ease forwards;
+      animation-delay: 1.9s;
+    }
+    .buttons a.tiktok::before {
+      background: linear-gradient(to right, #69C9D0, #010101, #EE1D52);
+    }
+    .buttons a.tiktok i {
+      color: #EE1D52;
+    }
+
+    .buttons a:hover {
+      background: #ffffff;
+      color: #000000;
+    }
+
+    @keyframes slideInDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeInUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes slideInLeft {
+      from { transform: translateX(-50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideInRight {
+      from { transform: translateX(50px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .star, .falling-star {
+      position: absolute;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .star {
+      width: 2px;
+      height: 2px;
+      opacity: 0.8;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 0.2; }
+    }
+
+    .falling-star {
+      width: 3px;
+      height: 3px;
+      animation: fallStar 1s linear forwards;
+    }
+
+    @keyframes fallStar {
+      from { transform: translate(0, 0); opacity: 1; }
+      to {
+        transform: translate(var(--dx, -300px), var(--dy, 300px));
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrapper" id="loginWrapper">
+    <form id="privateLoginForm">
+      <h1>Halaman bersifat pribadi!<br>Gunakan password untuk mengakses halaman</h1>
+      <div class="input-box">
+        <input type="password" placeholder="Masukkan Password" id="password" required>
+        <i class='bx bxs-lock-alt'></i>
+      </div>
+      <button type="submit" class="btn">Masuk</button>
+      <div id="error" class="error">Password salah!</div>
+    </form>
+  </div>
+
+  <div class="profile-wrapper" id="profileWrapper">
+    <h1>Shadiqah Adil Naufal</h1>
+    <div class="description">
+      <p>IX.7</p>
+      <p>SMP Negeri 2 Prabumulih</p>
+      <p>Prabumulih, 13 December 2009</p>
+    </div>
+    <div id="countdown">Loading countdown...</div>
+    <div class="buttons">
+      <a href="https://wa.me/6282278271317" class="whatsapp"><i class='bx bxl-whatsapp'></i><span>WhatsApp</span></a>
+      <a href="https://instagram.com/shdqah.adil" class="instagram"><i class='bx bxl-instagram'></i><span>Instagram</span></a>
+      <a href="https://tiktok.com/@shadiqah15_" class="tiktok"><i class='bx bxl-tiktok'></i><span>TikTok</span></a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('privateLoginForm');
+    const passwordInput = document.getElementById('password');
+    const errorMessage = document.getElementById('error');
+    const loginWrapper = document.getElementById('loginWrapper');
+    const profileWrapper = document.getElementById('profileWrapper');
+
+    const correctPassword = "xinsoo123";
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (passwordInput.value === correctPassword) {
+        loginWrapper.style.display = "none";
+        profileWrapper.style.display = "block";
+      } else {
+        errorMessage.style.display = "block";
+      }
+    });
+
+    for (let i = 0; i < 15; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.left = Math.random() * 100 + '%';
+      document.body.appendChild(star);
+    }
+
+    function createFallingStar() {
+      const count = Math.floor(Math.random() * 3) + 1;
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'falling-star';
+        const dx = Math.random() * -400 - 100;
+        const dy = Math.random() * 400 + 100;
+        star.style.setProperty('--dx', dx + 'px');
+        star.style.setProperty('--dy', dy + 'px');
+        star.style.top = Math.random() * 100 + 'px';
+        star.style.left = (window.innerWidth - Math.random() * 100) + 'px';
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 1000);
+      }
+    }
+
+    setInterval(createFallingStar, 1000);
+
+    function updateCountdown() {
+  const now = new Date();
+  let birthday = new Date(`${now.getFullYear()}-12-13T00:00:00`);
+
+  // Jika ulang tahun tahun ini sudah lewat, hitung ke tahun depan
+  if (now > birthday) {
+    birthday = new Date(`${now.getFullYear() + 1}-12-13T00:00:00`);
+  }
+
+  const diff = birthday - now;
+  const cd = document.getElementById("countdown");
+
+  if (diff <= 0) {
+    cd.innerText = "🎉 Happy Birthday!";
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  cd.innerHTML = `🎂 Birthday countdown:<br>${days} hari ${hours} jam ${minutes} menit ${seconds} detik`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+  </script>
+</body>
+</html>
