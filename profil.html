@@ -1,0 +1,221 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --text-color: #fff;
+      --box-bg: rgba(0, 0, 50, 0.5);
+    }* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: var(--text-color);
+  font-family: 'Press Start 2P', cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  overflow: hidden;
+  animation: fadeIn 1.5s ease-in;
+  position: relative;
+  transition: background 1s;
+}
+
+#sun {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  width: 80px;
+  height: 80px;
+  background: yellow;
+  border-radius: 50%;
+  box-shadow: 0 0 40px 15px yellow;
+  display: none;
+  z-index: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s infinite;
+  border: 3px solid #ffcc00;
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.description {
+  font-size: 0.8rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  background: var(--box-bg);
+  padding: 20px;
+  border: 3px solid #ffcc00;
+  box-shadow: 4px 4px #000;
+  animation: popIn 1s ease-in-out;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.buttons a {
+  display: inline-block;
+  padding: 12px 20px;
+  margin: 10px;
+  background: #ffcc00;
+  color: #000;
+  text-decoration: none;
+  border: 3px solid #000;
+  box-shadow: 4px 4px #000;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: popIn 1s ease-in-out;
+}
+
+.buttons a:hover {
+  transform: translateY(-3px);
+  box-shadow: 6px 6px #000;
+}
+
+.star, .falling-star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+}
+
+.star {
+  width: 2px;
+  height: 2px;
+  opacity: 0.8;
+  animation: twinkle 2s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.2; }
+}
+
+.falling-star {
+  width: 3px;
+  height: 3px;
+  animation: fallStar 1s linear forwards;
+}
+
+@keyframes fallStar {
+  from {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-300px, 300px);
+    opacity: 0;
+  }
+}
+
+#countdown {
+  margin-top: 20px;
+  font-size: 0.7rem;
+  background: rgba(0, 0, 80, 0.4);
+  padding: 10px;
+  border: 2px dashed #ffcc00;
+  animation: popIn 1s ease-in-out;
+}
+
+  </style>
+</head>
+<body>
+  <div id="sun"></div>
+  <h1>PROFILE</h1>
+  <div class="description">
+    <p>Shadiqah Adil Naufal</p>
+    <p>IX.7</p>
+    <p>SMP Negeri 2 Prabumulih</p>
+    <p>Prabumulih, 13 December 2009</p>
+  </div>
+  <div id="countdown">Loading countdown...</div>
+  <div class="buttons">
+    <a href="https://wa.me/6282278271317" target="_blank">WhatsApp</a>
+    <a href="https://instagram.com/shdqah.adil" target="_blank">Instagram</a>
+    <a href="https://tiktok.com/@shadiqah15_" target="_blank">TikTok</a>
+  </div>
+  <script>
+    // Waktu dan background otomatis
+    function updateTheme() {
+      const hour = new Date().getHours();
+      const body = document.body;
+      const sun = document.getElementById('sun');if (hour >= 5 && hour < 10) {
+    body.style.background = 'linear-gradient(to bottom, #ffe29f, #a1c4fd)'; // pagi
+    sun.style.display = 'none';
+  } else if (hour >= 10 && hour < 16) {
+    body.style.background = 'linear-gradient(to top, #87cefa, #ffffff)'; // siang
+    sun.style.display = 'block';
+  } else if (hour >= 16 && hour < 19) {
+    body.style.background = 'linear-gradient(to top, #ff9966, #2c3e50)'; // sore
+    sun.style.display = 'none';
+  } else {
+    body.style.background = 'linear-gradient(to bottom, #0d1b2a, #000000)'; // malam
+    sun.style.display = 'none';
+    for (let i = 0; i < 15; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.left = Math.random() * 100 + '%';
+      document.body.appendChild(star);
+    }
+    setInterval(() => {
+      const count = Math.floor(Math.random() * 3) + 1;
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.className = 'falling-star';
+        star.style.top = Math.random() * 100 + 'px';
+        star.style.left = (window.innerWidth - Math.random() * 100) + 'px';
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 1000);
+      }
+    }, 1000);
+  }
+}
+
+function updateCountdown() {
+  const now = new Date();
+  const nextYear = now.getFullYear() + 1;
+  const newYear = new Date(`January 1, ${nextYear} 00:00:00`);
+  const diff = newYear - now;
+  const cd = document.getElementById("countdown");
+  if (diff <= 0) {
+    cd.innerText = "🎉 Selamat Tahun Baru!";
+    return;
+  }
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+  cd.innerText = `⏳ Menuju Tahun ${nextYear}:\n${days} hari ${hours} jam ${minutes} menit ${seconds} detik`;
+}
+
+updateTheme();
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+  </script>
+</body>
+</html>
